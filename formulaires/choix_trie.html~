@@ -1,0 +1,9 @@
+[(#ENV{tri}|=={date_creation}|?{
+[(#ENV{senstri}|?{
+<a class="ajax"  href="[(#SELF|parametre_url{tri,date_creation}|parametre_url{senstri,0})]"><:date:></a><img src="[(#CHEMIN{images/deplierbas.gif})]"/>
+	,<a class="ajax" href="[(#SELF|parametre_url{tri,date_creation}|parametre_url{senstri,1})]"><:date:></a><img src="[(#CHEMIN{img/depliertop.gif})]"/>
+		})]
+		,<a class="ajax" href="[(#SELF|parametre_url{tri,date_creation})]"><:date:></a>
+			[(#ENV{tri}|non)<img src="[(#CHEMIN{images/deplierbas.gif})]"/>]
+			})
+	]

@@ -1,0 +1,159 @@
+#CACHE{0}
+#SET{date,#DATE}
+	[(#ENV{retour}|non)
+		[(#ENV{id_commande}|oui)
+			<div class="popup">
+				<INCLURE{fond=formulaires/paypal}{id_commande}/>
+			</div>
+				]
+			]
+
+		[(#ENV{retour}|oui)
+			<div class="popup">
+				<INCLURE{fond=inc/retour_paiement}{env}/>
+			</div>
+			]		
+[(#ENV{id_commande}|non)		
+<div class="formulaire_spip formulaire_commande ajax">
+	<form action="[(#ENV{action}|parametre_url{form,active})]#commander" method="post">
+			#ACTION_FORMULAIRE{#ENV{action}}
+			<input type="hidden" value="#SELF" name="url_retour"/>
+		<div>
+			<fieldset><legend><:boutique:info_generales:></legend>
+			<ul>
+				[(#ENV{n_titre}|non)
+					[(#SAISIE{input,titre,label=<:boutique:nom_etoile:>,obligatoire=oui,datas=#ENV{titre},defaut=<:boutique:exemple_nom_etoile:>})]
+					]	
+				[(#ENV{n_titre}|oui)
+					[(#SAISIE{input,titre,label=<:boutique:nom_etoile_1:>,obligatoire=oui,datas=#ENV{titre},defaut=<:boutique:exemple_nom_etoile:>})]
+					[(#SAISIE{input,titre_2,label=<:boutique:nom_etoile_2:>,obligatoire=oui,datas=#ENV{titre_2},defaut=<:boutique:exemple_nom_etoile:>})]					
+					]		
+				[(#SAISIE{selection,id_option,label=<:boutique:constellation:>,obligatoire=oui,datas=[(#ENV{constellation})],option_intro=<:boutique:choisir:>})]
+						
+
+				#SET{erreurs,#ENV**{erreurs}|table_valeur{date_enregistrement_annee}}
+				<li class="editer_date_debut_evenement obligatoire[ (#GET{erreurs}|oui)erreur]">
+				<label for="date_debut_evenement"><:boutique:date_enregistrement:></label>
+            			[<span class='erreur_message'>(#GET{erreurs})</span>]
+				
+				<INCLURE{fond=formulaires/inc-jours}{name=date_enregistrement_jour}{date_enregistrement_jour=#ENV{date_enregistrement_jour,#GET{date}|affdate{jour}}}/>
+						
+				<INCLURE{fond=formulaires/inc-mois}{name=date_enregistrement_mois}{date_enregistrement_mois=#ENV{date_enregistrement_mois,#GET{date}|affdate{mois}}}/>
+						
+				<input value="#ENV{date_enregistrement_annee,#GET{date}|affdate{annee}}" size="4" class="text" name="date_enregistrement_annee" id="annee_fin_ev" style="width: auto; display: inline;" type="text">    
+       			</li>	
+			
+			[(#SAISIE{textarea,commentaire,class=text,label=<:boutique:comment:>,datas=#ENV{commentaire},defaut=<:boutique:exemple_message:>})]
+				
+				[(#SAISIE{selection,code_devise,label=<:boutique:prix_devises:>,obligatoire=oui,datas=[(#ENV{devises_choisis})],option_intro=<:boutique:choisir:>,defaut=#ENV{code_devise_defaut}})]
+								
+    			[(#PIPELINE{bt_form_commande_afficher_general,[(#ARRAY{args,[(#ENV*|unserialize)],data,''})]})]	
+    			[(#SAISIE{input,code_promo,label=<:codeprom:code_promo:>,'',datas=#ENV{code_promo}})]
+			<li class="editer_code_promo">
+				[(#ENV{erreurs}|non)[<span class="reponse_formulaire">(#CODE_PROMO|verifier_code_promo{false})</span>]]
+				<div class="boutons">
+					<input  class="submit" type="submit" name="test_code" value="<:codeprom:teste_code:>"/>
+				</div>
+			</li>
+    			[(#SAISIE{input,de_la_part_de,label=<:boutique:de_la_part_de:>,obligatoire=oui,datas=#ENV{titre},defaut=<:boutique:exemple_delapartde:>,})]
+    			
+    			[(#SAISIE{input,email,label=<:boutique:email:>,obligatoire=oui,datas=#ENV{email}})]		
+			</ul>
+			
+
+			[(#REM)Ecran de confirmation]
+			
+[(#REM) Ecran de prévisualisation]
+		</fieldset>
+	[(#ENV{message_ok}|=={prev}|oui)
+		<div class="popup">
+			<h4><:boutique:titre_confirmation:></h4>	
+			<div><:boutique:explication_confirmation:></div>
+			<fieldset><legend><:boutique:info_generales:></legend>
+				[(#ENV{n_titre}|non)	
+					<div>
+						<span class="titre"><:boutique:nom_etoile:> :</span> <span class="valeur">[(#ENV{titre})]</span>
+					</div>
+					]
+				[(#ENV{n_titre}|oui)	
+					<div>
+						<span class="titre"><:boutique:nom_etoile_1:> :</span> <span class="valeur">[(#ENV{titre})]</span>
+					</div>
+					<div>
+						<span class="titre"><:boutique:nom_etoile_2:> :</span> <span class="valeur">[(#ENV{titre_2})]</span>
+					</div>					
+					]						
+				<div>
+					<span class="titre"><:boutique:constellation:> :</span> <span class="valeur">[(#ID_OPTION|titre_mot)]</span>	
+				</div>	
+				<div>	
+					<span class="titre"><:boutique:comment:> :</span> <span class="valeur">#COMMENTAIRE</span>	
+				</div>	
+				<div>	
+					<span class="titre"><:boutique:date_enregistrement:> :</span> <span class="valeur">[(#DATE_ENREGISTREMENT_JOUR)]-[(#DATE_ENREGISTREMENT_MOIS)]-[(#DATE_ENREGISTREMENT_ANNEE)]</span>	
+				</div>											
+										
+				<div>
+					<span class="titre"><:boutique:info_prix:> :</span> <span class="valeur">#PRIX&nbsp;[(#CODE_DEVISE|traduire_devise)]</span>	
+				</div>
+					
+				[(#PIPELINE{bt_form_commande_afficher_prev_prix,[(#ARRAY{args,[(#ENV*|unserialize)],data,''})]})]
+				
+				
+				
+				<div>
+					<span class="titre"><:boutique:de_la_part_de:> :</span> <span class="valeur">#DE_LA_PART_DE</span>	
+				</div>
+				
+				<div>
+					<span class="titre"><:boutique:frais_livraison:> :</span> <span class="valeur">[(#CONFIG{boutique/frais_livraison_#CODE_DEVISE})]&nbsp;[(#CODE_DEVISE|traduire_devise)]</span>	
+				</div>
+
+			</fieldset>
+			<fieldset><legend><:boutique:infos_livraison:></legend>	
+				<div>	
+				<span class="titre"><:nom:> :</span> <span class="valeur">#NOM</span>	
+				</div>		
+				<div>
+					<span class="titre"><:boutique:email:> :</span> <span class="valeur"><a href="mailto:#EMAIL">#EMAIL</a></span>	
+				</div>
+				<div class="titre"><:boutique:adresse:>
+					<div  class="valeur adresse">#ADRESSE</div>
+					<span class="valeur cp">#CODE_POSTAL</span> <span class="valeur ville">#VILLE</span>	
+					<div class="pays"><INCLURE{fond=formulaires/inc_pays}{pays}/>
+					</div>
+				</div>
+			</fieldset>
+			<p class="boutons">
+			<input type="submit" name="modifier" class="submit" value="<:boutique:modifier:>" />			
+			<input type="submit" name="confirmer" class="submit" value="<:boutique:confirmer:>" />
+			</p>
+			
+		</div>	
+		]
+			
+		<fieldset><legend><:boutique:infos_livraison:></legend>	
+
+			<ul>
+				[(#SAISIE{input,nom,label=<:nom:>,obligatoire=oui,datas=#ENV{nom},defaut=<:boutique:exemple_nom:>})]
+				
+				
+				[(#SAISIE{input,adresse,label=<:boutique:adresse:>,obligatoire=oui,datas=#ENV{adresse}})]
+					
+					[(#SAISIE{input,code_postal,label=<:boutique:code_postal:>,obligatoire=oui,datas=#ENV{code_postal}})]					
+				
+				[(#SAISIE{input,ville,label=<:boutique:ville:>,obligatoire=oui,datas=#ENV{ville}})]	
+				
+				[(#SAISIE{pays, pays,label=<:boutique:info_pays:>,obligatoire=oui})] 
+			</ul>
+
+		</fieldset>
+		[(#ENV{message_ok}|=={prev}|non)
+			<p class="boutons"><input type="submit" name="prev" class="submit" value="<:boutique:commander:>" /></p>
+			]
+		
+		</div>
+	</form>
+</div>	
+	]
+

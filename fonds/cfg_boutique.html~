@@ -1,0 +1,109 @@
+<!-- titre= &nbsp;&nbsp;Boutique-->
+<!-- icone=img/logo_boutique_22.png-->
+<!-- descriptif=<h4>Boutique</h4>
+	<a href="?exec=boutique"><img align="absmiddle" src="[(#CHEMIN{img/logo_boutique_32.png})]" alt="<:boutique:boutique:>"/>&nbsp;<:boutique:boutique:></a>
+ -->
+<!-- autoriser=webmestre -->
+<!-- refus=<:cfg:refus_configuration_webmestre:> -->
+
+#CACHE{0}
+
+#SET{devises,(#VAL|devises)}
+#SET{selected,#CONFIG{boutique/devises,#ARRAY}}
+
+<form method="post" action="#SELF"><div>[(#ENV{_cfg_}|form_hidden)]</div>
+
+<fieldset><legend><:boutique:info_produit:></legend>
+
+<p>
+	
+	<B_choix>
+	<div>
+	<:boutique:devises_choisis:> :
+	<BOUCLE_choix(POUR){tableau #CONFIG{boutique/devises,#ARRAY}}{', '}>
+		[(#VALEUR|traduire_devise)]
+	</BOUCLE_choix>
+	</div>
+	</B_choix>
+	
+	<label for="devises"><:boutique:choix_devises:></label>
+
+	<select name="devises[]" class="forml" style="width:auto;" multiple="multiple" size="5" id="devises">	
+		<option value=""><:boutique:choix_devise:></option>
+		<BOUCLE_selection(POUR){tableau #GET{devises}}>
+		<option value="#CLE" [(#CLE|in_array{#GET{selected}}|?{' selected="selected"'})]>#VALEUR</option>
+		</BOUCLE_selection>
+	</select>
+</p>
+
+	<B_selection_default>
+<p>
+	
+	<label for="devises"><:boutique:devise_default:></label>	
+	<select name="devise_default" class="forml" style="width:auto;" id="devise_default">	
+		<option value=""><:boutique:choisir:></option>
+		<BOUCLE_selection_default(POUR){tableau #CONFIG{boutique/devises,#ARRAY}}>
+		<option value="#VALEUR" [(#ENV{devise_default}|=={#VALEUR}|?{'selected="selected"'})]>[(#VALEUR|traduire_devise)]</option>
+		</BOUCLE_selection_default>
+	</select>
+</p>
+	</B_selection_default>
+
+
+<p>
+
+	<B_frais>
+	<label for="frais_livraison"><:boutique:frais_livraison:> : </label>
+	<BOUCLE_frais(POUR){tableau #CONFIG{boutique/devises,#ARRAY}}>
+	<div>
+		<input type="text" name="frais_livraison_#VALEUR" id="frais_livraison_#VALEUR" value="#ENV{frais_livraison_#VALEUR}" /> [(#VALEUR|traduire_devise)]
+	</div>
+	</BOUCLE_frais>
+	</B_frais>
+</p>
+
+</fieldset>
+<fieldset><legend><:boutique:paypal:></legend>
+<p>
+	<label for="email_paypal"><:boutique:email_paypal:> : </label>
+
+	<div>
+		<input type="text" name="email_paypal" id="email_paypal" value="#ENV{email_paypal}" />
+	</div>
+</p>
+
+</fieldset>
+
+<fieldset><legend><:boutique:info_generales:></legend>
+<p>
+<label for="groupe_pays"><:boutique:rubrique_produits:></label>
+	<select name="rubrique_produits" id="rubrique_produits" style="width:auto;" >
+	<option value=""><:encheres:choisir_rubrique:></option>
+		<BOUCLE_projet(RUBRIQUES){id_parent=0}{tout}>	
+			<option value="#ID_RUBRIQUE" [(#ENV{rubrique_produits}|=={#ID_RUBRIQUE}|?{'selected="selected"'})]>#TITRE</option>
+		</BOUCLE_projet>	
+	</select>
+</p>
+
+<p>
+<label for="groupe_constellation"><:boutique:groupe_constellation:></label>
+	<select name="groupe_constellation" id="groupe_constellation" style="width:auto;" >
+	<option value=""><:encheres:choisir_groupe_mot:></option>
+		<BOUCLE_mots(GROUPES_MOTS){tout}>	
+			<option value="#ID_GROUPE" [(#ENV{rubrique_produits}|=={#ID_GROUPE}|?{'selected="selected"'})]>#TITRE</option>
+		</BOUCLE_mots>	
+	</select>
+</p>
+</fieldset>
+
+[(#REM)Pipeline pour insérér des champs]
+[(#PIPELINE{bt_form_cfg,[(#ARRAY{[(#ENV*|unserialize)],data,''})]})]
+
+<div>
+
+
+	<input type="submit" name="_cfg_ok" class="fondo" value="<:cfg:ok:>" />
+	<input type="submit" name="_cfg_delete" class="fondo" value="<:cfg:effacer:>" />
+</div>
+</form>
+

@@ -1,0 +1,7 @@
+<BOUCLE_art(BOUTIQUE_COMMANDE){id_commande}>
+	<div class="message">
+	[(#STATUT|=={paye}|?{<:boutique:paiement_valide>,<:boutique:paiement_probleme>: #EMAIL_WEBMASTER})]
+	</div>
+</BOUCLE_art>
+
+

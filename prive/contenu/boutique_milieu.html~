@@ -1,0 +1,9 @@
+#CACHE{0}
+
+<h1><:boutique:boutique:></h1>
+
+
+
+<INCLURE{fond=prive/contenu/boutique_milieu_commande_traitement}{env}/>
+
+<INCLURE{fond=prive/contenu/boutique_milieu_commande_traite}{env}{ajax}/>

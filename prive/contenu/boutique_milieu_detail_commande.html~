@@ -1,0 +1,75 @@
+<h1><:boutique:detail_commande:></h1>
+	<div class="cadre cadre-r">
+	<B_commande>
+	<div id="commande" class="cadre_padding">
+		<BOUCLE_commande(BOUTIQUE_COMMANDE){id_commande}>
+		
+		<h2><:boutique:info_generales:></h2>
+		<div id="commande_info1">
+		[(#TITRE_2|non)
+			<span class="titre"><:boutique:nom_etoile:> :</span> <span class="valeur">[(#TITRE)]</span>
+			]
+		[(#TITRE_2|oui)
+			<span class="titre"><:boutique:nom_etoile_1:> :</span> <span class="valeur">[(#TITRE)]</span>
+			<span class="titre"><:boutique:nom_etoile_2:> :</span> <span class="valeur">[(#TITRE_2)]</span>	
+			]	
+		</div>
+		<div id="commande_info2">
+			<span class="titre"><:boutique:constellation:> :</span> 
+			<span class="valeur">
+				<BOUCLE_constellation(MOTS){id_mot=#ID_OPTION}>
+				#TITRE
+				</BOUCLE_constellation>
+			</span>	
+		</div>
+		<div id="commande_info3">	
+			<span class="titre"><:boutique:date_enregistrement:> :</span> <span class="valeur">[(#DATE_ENREGISTREMENT|affdate{'d-m-Y'})]</span>	
+		</div>
+		<div id="commande_info4">	
+			<span class="titre"><:boutique:comment:> :</span> <span class="valeur">#COMMENTAIRE</span>	
+		</div>
+		<div id="commande_info5">	
+			<span class="titre"><:boutique:produit:> :</span> <span class="valeur">[(#ID_PRODUIT|titre_article|supprimer_numero)]</span>	
+		</div>
+		<div id="commande_info6">
+			<span class="titre"><:boutique:info_prix:> :</span> <span class="valeur">#PRIX [(#CODE_DEVISE|traduire_devise)]</span>	
+		</div>
+		<div id="commande_info7">
+			<span class="titre"><:boutique:de_la_part_de:> :</span> <span class="valeur">#DE_LA_PART_DE</span>	
+		</div>
+		<div id="commande_info8">
+			<span class="titre"><:boutique:email:> :</span> <span class="valeur"><a href="mailto:#EMAIL">#EMAIL</a></span>	
+		</div>
+		<div id="commande_info9">
+			<span class="titre"><:boutique:statut:> <:boutique:paiement:> :</span> <span class="valeur"> [(#STATUT_PAIEMENT)]</span>	
+		</div>						
+		<div id="commande_info10">	
+			<span class="titre"><:boutique:date_vente:> :</span> <span class="valeur">[(#DATE_CREATION|affdate{'d-m-Y'})]</span>	
+		</div>
+		
+		<h2><:boutique:infos_livraison:></h2>
+		
+		<div id="commande_info11">	
+			<span class="titre"><:nom:> :</span> <span class="valeur">#NOM</span>	
+		</div>		
+		<div id="commande_info12">
+			<span class="titre"><:boutique:adresse:> :</span><br />
+			<span class="valeur adresse">
+			#ADRESSE
+			</span><br />
+		 	<span class="valeur cp">#CODE_POSTAL</span> <span class="valeur ville">#VILLE</span><br />
+		 	<span class="valeur pays">
+				<INCLURE{fond=formulaires/inc_pays}{pays}/>
+			</span>
+		</div>
+		
+		<p><strong><a href="[(#URL_ACTION_AUTEUR{gestion_commande,envoye,#URL_ECRIRE{boutique}}|parametre_url{id_commande,#ID_COMMANDE})]"><img src="#CHEMIN{img/tick_16.png}" title="<:boutique:commande_traite:>"/> <:boutique:commande_traite:></a></strong></p>	
+		</p>
+							
+		<div>	
+			</BOUCLE_commande>
+	</B_commande>
+	</ul>
+	</div>
+	</B_commande>
+</div>

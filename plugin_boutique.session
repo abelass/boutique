@@ -1,0 +1,16 @@
+<!DOCTYPE webprojectsession>
+<webprojectsession>
+  <session usePreviewPrefix="0" previewPrefix="" >
+    <itemcursorpositions>
+      <item column="0" line="0" url="inc/retour_paiement.html" />
+      <item line="0" column="0" url="formulaires/commande.php" />
+      <item line="313" column="0" url="inc/retour_paiement_paypal.php" />
+    </itemcursorpositions>
+    <treestatus>
+      <openfolder url="action" />
+      <openfolder url="formulaires" />
+      <openfolder url="inc" />
+      <openfolder url="templates" />
+    </treestatus>
+  </session>
+</webprojectsession>

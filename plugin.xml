@@ -1,0 +1,47 @@
+<plugin>
+	<nom>Boutique</nom>
+	<auteur><a href="http://www.mychacra.net">Rainer Müller</a></auteur>
+	<version>0.1.6</version>
+	<version_base>0.1.6</version_base>
+	<etat>test</etat>
+	<description>
+	plugin pour e-commerce simple inspir&eacute; du plugin &eacute;choppe
+	</description>
+	<licence>GPL 3</licence>
+	<prefix>boutique</prefix>
+	<icon>img/logo_boutique_32.png</icon>
+	<bouton id="boutique_edit" parent="naviguer">
+		<icone>img/logo_boutique_24.png</icone>
+		<titre>Boutique</titre>   
+		<url>boutique</url>   
+    	</bouton>
+	<fonctions>boutique_mes_fonctions.php</fonctions>
+	<fonctions>inc/devises.php</fonctions>	
+	<options>boutique_mes_options.php</options>		
+	<pipeline>
+		<nom>declarer_tables_interfaces</nom>
+		<inclure>base/tables_interfaces.php</inclure>
+		<action>init_tables_interfaces</action>
+	</pipeline>		
+	<pipeline>
+		<nom>declarer_tables_principales</nom>
+		<inclure>base/boutique_tables_principales.php</inclure>
+	</pipeline>
+	<pipeline>
+		<nom>declarer_tables_auxiliaires</nom>
+		<inclure>base/boutique_tables_auxiliaires.php</inclure>
+	</pipeline>		
+	<install>base/boutique_install.php</install>
+	<pipeline>
+		<nom>affiche_milieu</nom>
+		<inclure>boutique_pipelines.php</inclure>
+	</pipeline>
+	<pipeline>
+		<nom>header_prive</nom>
+		<inclure>boutique_pipelines.php</inclure>
+	</pipeline>	
+	<necessite id="SPIP" version="[2.1.0;]" />
+	<necessite id="spip_bonux" version="[2.2.10;]" />
+	<necessite id="saisies" version="[1.8.6;]" />
+</plugin>
+

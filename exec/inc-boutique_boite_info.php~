@@ -1,0 +1,13 @@
+<?php
+echo
+debut_cadre_relief('',true,'', _T('boutique:shortcuts'));
+if(_request('voir')){
+echo	'<div><a href="?exec=boutique"><img src="'.chemin('img/logo_boutique_22.png').'" alt="'._T('spip:icone_configuration_site').'" align="absmiddle" />&nbsp;'._T('boutique:boutique').'</a>';
+	echo '</strong></div>';
+}
+
+echo	'<div><a href="?exec=cfg&cfg=boutique"><img src="'.chemin('cfg-22.png').'" alt="'._T('spip:icone_configuration_site').'" align="absmiddle" />&nbsp;'._T('spip:icone_configuration_site').'</a>';
+	echo pipeline('bt_affiche_gauche_shortcuts', array('args'=>array('exec'=>'boutique'),'data'=>''));
+			echo '</div>';	
+	echo fin_cadre_relief(true);
+?>

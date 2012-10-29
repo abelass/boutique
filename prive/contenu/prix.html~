@@ -1,0 +1,15 @@
+<B_prix>
+		<div class="cadre cadre-liste">
+			<ul style="list-style:none;">
+			<BOUCLE_prix(BOUTIQUE_PRIX){id_article}{doublons}>
+			<li><span>#PRIX</span>&nbsp;<span>[(#CODE_DEVISE|traduire_devise)]</span><a href="[(#URL_ACTION_AUTEUR{eliminer_prix,#ID_PRIX,[(#SELF|parametre_url{retour_action,oui})]})]#prix"> <img src="#CHEMIN{prive/images/croix-rouge.gif}" /></a></li>
+			<li>
+			</li>
+			</BOUCLE_prix>
+			</ul>
+		</div>
+		</B_prix>
+
+<B_selection>
+
+#FORMULAIRE_PRIX{#ENV{id_article}}

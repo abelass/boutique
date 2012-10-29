@@ -1,0 +1,31 @@
+<div class="formulaire_spip formulaire_commande">
+<h3><:boutique:paiement:></h3>
+<p class="boutique_paiement"><:boutique:paiement_description:></p>
+<BOUCLE_art(BOUTIQUE_COMMANDE){id_commande}>
+
+<form action="https://www.paypal.com/#ENV{lang}/cgi-bin/webscr" method="post" id="formulaire_prestataire_paiement">
+	<input TYPE="hidden" name="charset" value="#CHARSET"/>
+	<input type="hidden" name="cmd" value="_cart" />	
+	<input type="hidden" name="amount" value="#PRIX" /> 
+	<input type="hidden" name="image_url" value="#LOGO_SITE_SPIP" /> 
+	<input type="hidden" name="upload" value="1" /> 
+	<input type="hidden" name="return" value="#URL_SITE_SPIP/[(#SELF|parametre_url{retour,paypal}|parametre_url{id_commande,#ENV{id_commande}})]" /> 	
+	<input type="hidden" name="notify_url" value="[(#TOKEN|generer_url_retour_paiement{paypal})]" />	
+	<input type="hidden" name="rm" value="2" /> 
+	<input type="hidden" name="currency_code" value="#CODE_DEVISE" /> 
+	<input type="hidden" name="business" value="#CONFIG{boutique/email_paypal}" /> 
+	<input type="hidden" name="item_name_1" value="[(#ID_PRODUIT|titre_article)]" />
+	<input type="hidden" name="item_number_1" value="#ID_PRODUIT" /> 
+	<input type="hidden" name="amount_1" value="#PRIX" /> 
+	<input type="hidden" name="quantity_1" value="1" /> 
+	<input type="hidden" name="item_name_2" value="<:boutique:frais_livraison:>" /> 
+	[(#FRAIS_LIVRAISON|>{0}|oui)<input type="hidden" name="amount_2" value="[(#FRAIS_LIVRAISON)]" />
+	<input type="hidden" name="quantity_2" value="1" /> ]
+	<p class="boutons paypal">
+	<input type="submit" 	class="submit" value="<:boutique:payer_paypal:>" />
+	</p>
+
+</form>
+</BOUCLE_art>
+</div>
+

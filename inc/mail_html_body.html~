@@ -1,0 +1,43 @@
+[(#REM) il faudrait le faire completement modulable construt depuis le array du contexte]
+
+<h1 style="font-size: 22px;"><:boutique:bonjour:></h1>
+
+<p><:boutique:commande_enregistre:></p>
+
+<h2><:boutique:infos_personnelles:> : </h2>
+
+<p><:nom:> : #ENV{nom} </p>
+
+<p><:boutique:email:> : <a href="mailto:#ENV{email}">#ENV{email}</a></p>
+
+<p><:boutique:adresse:> : #ENV{adresse},&nbsp; #ENV{code_postal}&nbsp; #ENV{ville}</p>
+
+[<p><:boutique:info_pays:> : (#INCLURE{fond=formulaires/inc_pays}{pays})</p>]
+
+<h2><:boutique:produit:></h2>
+
+[<p><:boutique:titre_produit:> : (#ENV{titre_produit})</p>]
+
+[(#ENV{titre_2}|non)
+	[<p><:boutique:nom_etoile:> : (#ENV{titre})</p>]
+]
+
+[(#ENV{titre_2}|oui)
+	[<p><:boutique:nom_etoile_1:> : (#ENV{titre})</p>]
+	<p><:boutique:nom_etoile_2:> : #ENV{titre_2})</p>	
+]
+
+[<p><:boutique:constellation:> : (#ENV{constellation})</p>]
+
+[<p><:boutique:comment:> : (#ENV{commentaire})</p>]
+
+[<p><:boutique:date_enregistrement:> : (#ENV{date_enregistrement})</p>]
+
+[<p><:boutique:info_prix:> : (#ENV{prix}) [(#ENV{code_devise})]</p>]
+
+[<p><:boutique:de_la_part_de:> : (#DE_LA_PART_DE)</p>]
+
+[<p><:boutique:frais_livraison:> : (#ENV{frais_livraison}) [(#ENV{code_devise})]</p>]
+
+
+
